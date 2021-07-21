@@ -11,20 +11,26 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 
 public class MyMCD extends Application {
     private Stage hlavneOkno;
+    private ImageView imageView = new ImageView();
 
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage okno) {
+    public void start(Stage okno) throws FileNotFoundException {
         Datum datum = new Datum();
         Smeny smeny = new Smeny();
 
@@ -34,9 +40,29 @@ public class MyMCD extends Application {
         // vrchná časť
         Label titleLabel = new Label("ZMENY");
         titleLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 30;" + "-fx-background-color: green;" + "-fx-text-fill: white;");
-        titleLabel.setMaxWidth(Double.MAX_VALUE);
-        titleLabel.setMinHeight(60);
         titleLabel.setAlignment(Pos.CENTER);
+        titleLabel.setMinWidth(360);
+
+        Image image = new Image(new FileInputStream("./Pictures/ProfilIcon.png"));
+        ImageView imageView = new ImageView(image);
+        imageView.setImage(image);
+        imageView.setFitHeight(50);
+        imageView.setFitWidth(50);
+        imageView.setImage(image);
+        Button profilButton = new Button();
+        profilButton.setGraphic(imageView);
+        profilButton.setMaxWidth(50);
+        profilButton.setMaxHeight(50);
+        profilButton.setPadding(new Insets(0,0,0,0));
+        profilButton.setStyle("-fx-background-radius: 40;" + "-fx-focus-color: transparent;");
+        profilButton.setOnAction(e -> new ProfilOkno());
+
+        HBox topContainer = new HBox();
+        topContainer.setMinHeight(60);
+        topContainer.setAlignment(Pos.CENTER_RIGHT);
+        topContainer.setPadding(new Insets(0,20,0,0));
+        topContainer.setStyle("-fx-background-color: green;");
+        topContainer.getChildren().addAll(titleLabel, profilButton);
 
         // stredná časť
         ChoiceBox<Integer> yearChoice = new ChoiceBox<>();
@@ -108,14 +134,14 @@ public class MyMCD extends Application {
 
         Tab odrobeneTab = new Tab("ODROBENÉ");
         odrobeneTab.setClosable(false);
-        odrobeneTab.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;" + "-fx-background-color: white;" + "-fx-min-width: 200");
+        odrobeneTab.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;" + "-fx-background-color: white;");
         odrobeneTab.setContent(odrobeneTable);
 
         TabPane tabPane = new TabPane();
         tabPane.setMaxWidth(400);
         tabPane.setMinHeight(400);
         tabPane.getTabs().addAll(naplanovaneTab, odrobeneTab);
-        tabPane.setStyle("-fx-tab-min-width: 171;" + "-fx-background-radius: 10");
+        tabPane.setStyle("-fx-tab-min-width: 171;" + "-fx-background-radius: 10;");
 
         tabPane.getSelectionModel().selectedItemProperty().addListener(
                 new ChangeListener<Tab>() {
@@ -158,7 +184,7 @@ public class MyMCD extends Application {
         // container
         VBox vBox = new VBox(15);
         vBox.setAlignment(Pos.TOP_CENTER);
-        vBox.getChildren().addAll(titleLabel, obdobieContainer, tabPane, vyplataLabel, hBox);
+        vBox.getChildren().addAll(topContainer, obdobieContainer, tabPane, vyplataLabel, hBox);
         vBox.setStyle("-fx-background-color: lightgray;");
 
         hlavneOkno.setScene(new Scene(vBox, 500, 700));
