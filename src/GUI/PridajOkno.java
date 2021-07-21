@@ -76,7 +76,7 @@ public class PridajOkno {
 
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
-        // gridPane.setHgap(5);
+        gridPane.setHgap(5);
         gridPane.setVgap(30);
         gridPane.setPadding(new Insets(20, 20, 20, 20));
 

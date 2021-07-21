@@ -51,8 +51,8 @@ public class MyMCD extends Application {
         imageView.setImage(image);
         Button profilButton = new Button();
         profilButton.setGraphic(imageView);
-        profilButton.setMaxWidth(50);
-        profilButton.setMaxHeight(50);
+        profilButton.setMaxWidth(40);
+        profilButton.setMaxHeight(40);
         profilButton.setPadding(new Insets(0,0,0,0));
         profilButton.setStyle("-fx-background-radius: 40;" + "-fx-focus-color: transparent;");
         profilButton.setOnAction(e -> new ProfilOkno());
@@ -90,7 +90,7 @@ public class MyMCD extends Application {
         datumColumn.setStyle("-fx-alignment: CENTER;");
         datumColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDatum()));
 
-        TableColumn<Smena, String> denColumn = new TableColumn<>("Den");
+        TableColumn<Smena, String> denColumn = new TableColumn<>("Deň");
         denColumn.setStyle("-fx-alignment: CENTER;");
         denColumn.setMaxWidth(78);
         denColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDen()));
@@ -141,7 +141,7 @@ public class MyMCD extends Application {
         tabPane.setMaxWidth(400);
         tabPane.setMinHeight(400);
         tabPane.getTabs().addAll(naplanovaneTab, odrobeneTab);
-        tabPane.setStyle("-fx-tab-min-width: 171;" + "-fx-background-radius: 10;");
+        tabPane.setStyle("-fx-tab-min-width: 171;" + "-fx-background-radius: 10;" + "-fx-focus-color: transparent;");
 
         tabPane.getSelectionModel().selectedItemProperty().addListener(
                 new ChangeListener<Tab>() {
