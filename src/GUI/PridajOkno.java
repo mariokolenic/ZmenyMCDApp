@@ -58,11 +58,13 @@ public class PridajOkno {
         Button pridatButton = new Button("PRIDAŤ");
         pridatButton.setOnAction(e -> {
             if(vybranyTab.equals("NAPLÁNOVANÉ")) {
+                System.out.println("Naplánované");
                 smeny.pridajNaplanovanuSmenu(user, Integer.parseInt(denText.getText()), Integer.parseInt(mesiacText.getText()),
                         Integer.parseInt(rokText.getText()), Integer.parseInt(odHodinyText.getText()), Integer.parseInt(odMinutyText.getText()),
                         Integer.parseInt(doHodinyText.getText()), Integer.parseInt(doMinutyText.getText()));
             }
             else if (vybranyTab.equals("ODROBENÉ")){
+                System.out.println("Odrobené");
                 smeny.pridajOdrobenuSmenu(user, Integer.parseInt(denText.getText()), Integer.parseInt(mesiacText.getText()),
                         Integer.parseInt(rokText.getText()), Integer.parseInt(odHodinyText.getText()), Integer.parseInt(odMinutyText.getText()),
                         Integer.parseInt(doHodinyText.getText()), Integer.parseInt(doMinutyText.getText()));

@@ -83,44 +83,69 @@ public class MyMCD extends Application {
         obdobieContainer.setAlignment(Pos.CENTER);
         obdobieContainer.getChildren().addAll(mounthChoice, yearChoice);
 
+
+
         TableView<Smena> naplanovaneTable = new TableView<>();
         naplanovaneTable.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
         naplanovaneTable.setEditable(false);
         naplanovaneTable.setPlaceholder(new Label("Zatiaľ nie sú pridané žiadne zmeny"));
 
-        TableColumn<Smena, String> datumColumn = new TableColumn<>("Dátum");
-        datumColumn.setStyle("-fx-alignment: CENTER;");
-        datumColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDatumString()));
+        TableColumn<Smena, String> datumColumnNaplanovane = new TableColumn<>("Dátum");
+        datumColumnNaplanovane.setStyle("-fx-alignment: CENTER;");
+        datumColumnNaplanovane.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDatumString()));
 
-        TableColumn<Smena, String> denColumn = new TableColumn<>("Deň");
-        denColumn.setStyle("-fx-alignment: CENTER;");
-        denColumn.setMaxWidth(78);
-        denColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDenString()));
+        TableColumn<Smena, String> denColumnNaplanovane = new TableColumn<>("Deň");
+        denColumnNaplanovane.setStyle("-fx-alignment: CENTER;");
+        denColumnNaplanovane.setMaxWidth(78);
+        denColumnNaplanovane.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDenString()));
 
-        TableColumn<Smena, String> odColumn = new TableColumn<>("Od");
-        odColumn.setStyle("-fx-alignment: CENTER;");
-        odColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getOd()));
+        TableColumn<Smena, String> odColumnNaplanovane = new TableColumn<>("Od");
+        odColumnNaplanovane.setStyle("-fx-alignment: CENTER;");
+        odColumnNaplanovane.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getOd()));
 
-        TableColumn<Smena, String> doColumn = new TableColumn<>("Do");
-        doColumn.setStyle("-fx-alignment: CENTER;");
-        doColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDo()));
+        TableColumn<Smena, String> doColumnNaplanovane = new TableColumn<>("Do");
+        doColumnNaplanovane.setStyle("-fx-alignment: CENTER;");
+        doColumnNaplanovane.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDo()));
 
-        TableColumn<Smena, String> hodinColumn = new TableColumn<>("Hodín");
-        hodinColumn.setStyle("-fx-alignment: CENTER;");
-        hodinColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHodinDokopy()));
+        TableColumn<Smena, String> hodinColumnNaplanovane = new TableColumn<>("Hodín");
+        hodinColumnNaplanovane.setStyle("-fx-alignment: CENTER;");
+        hodinColumnNaplanovane.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHodinDokopy()));
 
-        naplanovaneTable.getColumns().add(datumColumn);
-        naplanovaneTable.getColumns().add(denColumn);
-        naplanovaneTable.getColumns().add(odColumn);
-        naplanovaneTable.getColumns().add(doColumn);
-        naplanovaneTable.getColumns().add(hodinColumn);
+        naplanovaneTable.getColumns().addAll(datumColumnNaplanovane, denColumnNaplanovane, odColumnNaplanovane, doColumnNaplanovane, hodinColumnNaplanovane);
         naplanovaneTable.setItems(smeny.getNaplanovanaSmena());
 
         TableView<Smena> odrobeneTable = new TableView<>();
+        odrobeneTable.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
+        odrobeneTable.setEditable(false);
+        odrobeneTable.setPlaceholder(new Label("Zatiaľ nie sú pridané žiadne zmeny"));
+
+        TableColumn<Smena, String> datumColumnOdrobene = new TableColumn<>("Dátum");
+        datumColumnOdrobene.setStyle("-fx-alignment: CENTER;");
+        datumColumnOdrobene.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDatumString()));
+
+        TableColumn<Smena, String> denColumnOdrobene = new TableColumn<>("Deň");
+        denColumnOdrobene.setStyle("-fx-alignment: CENTER;");
+        denColumnOdrobene.setMaxWidth(78);
+        denColumnOdrobene.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDenString()));
+
+        TableColumn<Smena, String> odColumnOdrobene = new TableColumn<>("Od");
+        odColumnOdrobene.setStyle("-fx-alignment: CENTER;");
+        odColumnOdrobene.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getOd()));
+
+        TableColumn<Smena, String> doColumnOdrobene = new TableColumn<>("Do");
+        doColumnOdrobene.setStyle("-fx-alignment: CENTER;");
+        doColumnOdrobene.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDo()));
+
+        TableColumn<Smena, String> hodinColumnOdrobene = new TableColumn<>("Hodín");
+        hodinColumnOdrobene.setStyle("-fx-alignment: CENTER;");
+        hodinColumnOdrobene.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHodinDokopy()));
+
+        odrobeneTable.getColumns().addAll(datumColumnOdrobene, denColumnOdrobene, odColumnOdrobene, doColumnOdrobene, hodinColumnOdrobene);
+        odrobeneTable.setItems(smeny.getOdrobenaSmena());
 
         Tab naplanovaneTab = new Tab("NAPLÁNOVANÉ");
         naplanovaneTab.setClosable(false);
-        naplanovaneTab.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;" + "-fx-background-color: white;");
+        naplanovaneTab.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;" + "-fx-background-color: green;" + "-fx-text-base-color: white;");
 
         VBox naplanovaneBox = new VBox();
         naplanovaneBox.setAlignment(Pos.CENTER);
@@ -130,7 +155,11 @@ public class MyMCD extends Application {
         Tab odrobeneTab = new Tab("ODROBENÉ");
         odrobeneTab.setClosable(false);
         odrobeneTab.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;" + "-fx-background-color: white;");
-        odrobeneTab.setContent(odrobeneTable);
+
+        VBox odrobeneBox = new VBox();
+        odrobeneBox.setAlignment(Pos.CENTER);
+        odrobeneBox.getChildren().addAll(odrobeneTable);
+        odrobeneTab.setContent(odrobeneBox);
 
         TabPane tabPane = new TabPane();
         tabPane.setMaxWidth(400);
