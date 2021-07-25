@@ -3,6 +3,7 @@ package GUI;
 import Skripts.Datum;
 import Skripts.Smena;
 import Skripts.Smeny;
+import Skripts.User;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -33,6 +34,7 @@ public class MyMCD extends Application {
     public void start(Stage okno) throws FileNotFoundException {
         Datum datum = new Datum();
         Smeny smeny = new Smeny();
+        User user = new User("1.12.2000", true, 3.6, 1);
 
         hlavneOkno = okno;
         hlavneOkno.setTitle("MCD ZMENY");
@@ -88,12 +90,12 @@ public class MyMCD extends Application {
 
         TableColumn<Smena, String> datumColumn = new TableColumn<>("Dátum");
         datumColumn.setStyle("-fx-alignment: CENTER;");
-        datumColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDatum()));
+        datumColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDatumString()));
 
         TableColumn<Smena, String> denColumn = new TableColumn<>("Deň");
         denColumn.setStyle("-fx-alignment: CENTER;");
         denColumn.setMaxWidth(78);
-        denColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDen()));
+        denColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDenString()));
 
         TableColumn<Smena, String> odColumn = new TableColumn<>("Od");
         odColumn.setStyle("-fx-alignment: CENTER;");
@@ -115,13 +117,6 @@ public class MyMCD extends Application {
         naplanovaneTable.setItems(smeny.getNaplanovanaSmena());
 
         TableView<Smena> odrobeneTable = new TableView<>();
-
-        Label vyplataLabel = new Label("VÝPLATA: ");
-        vyplataLabel.setAlignment(Pos.CENTER_LEFT);
-        vyplataLabel.setPadding(new Insets(0, 10, 0, 10));
-        vyplataLabel.setMinHeight(40);
-        vyplataLabel.setMaxWidth(400);
-        vyplataLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: white;" + "-fx-font-size: 20;" + "-fx-background-radius: 10;");
 
         Tab naplanovaneTab = new Tab("NAPLÁNOVANÉ");
         naplanovaneTab.setClosable(false);
@@ -154,6 +149,13 @@ public class MyMCD extends Application {
                 }
         );
 
+        Label vyplataLabel = new Label("VÝPLATA: " + smeny.vypocitajVyplatu(tabPane.getSelectionModel().getSelectedItem().getText(), mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user));
+        vyplataLabel.setAlignment(Pos.CENTER_LEFT);
+        vyplataLabel.setPadding(new Insets(0, 10, 0, 10));
+        vyplataLabel.setMinHeight(40);
+        vyplataLabel.setMaxWidth(400);
+        vyplataLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: white;" + "-fx-font-size: 20;" + "-fx-background-radius: 10;");
+
         Button pridatButton = new Button("PRIDAŤ");
         Button zrusitButton = new Button("ZRUŠIŤ");
         pridatButton.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: green;" + "-fx-font-size: 25;" + "-fx-text-fill: aliceblue;" + "-fx-background-radius: 10");
@@ -161,15 +163,17 @@ public class MyMCD extends Application {
 
         pridatButton.setOnAction(e -> {
             System.out.println("Vybraný tab: " + tabPane.getSelectionModel().getSelectedItem().getText() + " SMENY");
-            new PridajOkno(tabPane.getSelectionModel().getSelectedItem().getText(), smeny, datum);
+            new PridajOkno(tabPane.getSelectionModel().getSelectedItem().getText(), user, smeny, datum);
 
             //refresh tabulky
             naplanovaneTable.getItems().clear();
             naplanovaneTable.getItems().addAll(smeny.getNaplanovanaSmena());
 
             for(Smena smena : smeny.getNaplanovaneSmeny()) {
-                System.out.println(smena.getDatum());
+                System.out.println(smena.getDatumString());
             }
+
+            vyplataLabel.setText("VÝPLATA: " + smeny.vypocitajVyplatu(tabPane.getSelectionModel().getSelectedItem().getText(), mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user));
         });
 
         zrusitButton.setOnAction(e -> {

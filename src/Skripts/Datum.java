@@ -10,6 +10,7 @@ public class Datum {
     private int den;
     private int mesiac;
     private int rok;
+    private String denString;
 
     public Datum() {
         String[] datum = zistiDatum().split("\\.", 3);  // rozdelenie podla bodiek
@@ -22,6 +23,7 @@ public class Datum {
         this.den = den;
         this.mesiac = mesiac;
         this.rok = rok;
+        this.denString = getDayFromDate(den, mesiac, rok);
     }
 
     public int getDen() {

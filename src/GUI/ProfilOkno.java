@@ -3,10 +3,7 @@ package GUI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -30,12 +27,7 @@ public class ProfilOkno {
         Label osatneLabel = new Label("Ošatné: ");
 
         TextField narodenieText = new TextField();
-        ComboBox<String> zmluvaComboBox = new ComboBox<>();
-        zmluvaComboBox.getItems().addAll(
-                "Brigádnik",
-                "Polovičný úväzok",
-                "Plný úväzok"
-        );
+        CheckBox dbpsCHBox = new CheckBox("Študent brigádnik");
         TextField mzdaText = new TextField();
         TextField osatneText = new TextField("1,00");
 
@@ -61,7 +53,7 @@ public class ProfilOkno {
         GridPane.setConstraints(datumNarodeniaLabel, 0, 3);
         GridPane.setConstraints(narodenieText, 1, 3);
         GridPane.setConstraints(zmluvaLabel, 0, 4);
-        GridPane.setConstraints(zmluvaComboBox, 1, 4);
+        GridPane.setConstraints(dbpsCHBox, 1, 4);
         GridPane.setConstraints(mzdaLabel, 0, 5);
         GridPane.setConstraints(mzdaText, 1, 5);
         GridPane.setConstraints(osatneLabel, 0, 6);
@@ -69,7 +61,7 @@ public class ProfilOkno {
         GridPane.setConstraints(ulozitButton, 0, 7, 2, 1);
 
         gridPane.getChildren().addAll(nadpisLabel, datumNarodeniaLabel, narodenieText,
-                zmluvaLabel, zmluvaComboBox, mzdaLabel, mzdaText, osatneLabel, osatneText, ulozitButton);
+                zmluvaLabel, dbpsCHBox, mzdaLabel, mzdaText, osatneLabel, osatneText, ulozitButton);
 
         ulozitButton.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: green;" + "-fx-font-size: 20;" + "-fx-text-fill: aliceblue;" + "-fx-background-radius: 10");
 

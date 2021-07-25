@@ -2,6 +2,7 @@ package GUI;
 
 import Skripts.Datum;
 import Skripts.Smeny;
+import Skripts.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,7 +15,7 @@ import javafx.stage.Stage;
 
 public class PridajOkno {
 
-    public PridajOkno(String vybranyTab, Smeny smeny, Datum datum) {
+    public PridajOkno(String vybranyTab, User user, Smeny smeny, Datum datum) {
         super();
 
         Stage pridajOkno = new Stage();
@@ -57,12 +58,12 @@ public class PridajOkno {
         Button pridatButton = new Button("PRIDAŤ");
         pridatButton.setOnAction(e -> {
             if(vybranyTab.equals("NAPLÁNOVANÉ")) {
-                smeny.pridajNaplanovanuSmenu(Integer.parseInt(denText.getText()), Integer.parseInt(mesiacText.getText()),
+                smeny.pridajNaplanovanuSmenu(user, Integer.parseInt(denText.getText()), Integer.parseInt(mesiacText.getText()),
                         Integer.parseInt(rokText.getText()), Integer.parseInt(odHodinyText.getText()), Integer.parseInt(odMinutyText.getText()),
                         Integer.parseInt(doHodinyText.getText()), Integer.parseInt(doMinutyText.getText()));
             }
             else if (vybranyTab.equals("ODROBENÉ")){
-                smeny.pridajOdrobenuSmenu(Integer.parseInt(denText.getText()), Integer.parseInt(mesiacText.getText()),
+                smeny.pridajOdrobenuSmenu(user, Integer.parseInt(denText.getText()), Integer.parseInt(mesiacText.getText()),
                         Integer.parseInt(rokText.getText()), Integer.parseInt(odHodinyText.getText()), Integer.parseInt(odMinutyText.getText()),
                         Integer.parseInt(doHodinyText.getText()), Integer.parseInt(doMinutyText.getText()));
             }
