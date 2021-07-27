@@ -1,9 +1,10 @@
 package Skripts;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class User {
+public class User implements Serializable {
     private String datumNarodenia = null;
     private int denNarodenia = 0;
     private int mesiacNarodenia = 0;

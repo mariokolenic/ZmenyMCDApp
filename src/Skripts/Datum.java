@@ -1,12 +1,13 @@
 package Skripts;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
-public class Datum {
+public class Datum implements Serializable {
     private int den;
     private int mesiac;
     private int rok;

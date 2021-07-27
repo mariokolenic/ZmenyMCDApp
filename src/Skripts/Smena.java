@@ -1,6 +1,8 @@
 package Skripts;
 
-public class Smena {
+import java.io.Serializable;
+
+public class Smena implements Serializable {
     private Datum datum;
     private int odHodiny;
     private int doHodiny;
@@ -87,5 +89,21 @@ public class Smena {
 
     public double getPriplatok() {
         return priplatok;
+    }
+
+    public void setOdHodiny(int odHodiny) {
+        this.odHodiny = odHodiny;
+    }
+
+    public void setDoHodiny(int doHodiny) {
+        this.doHodiny = doHodiny;
+    }
+
+    public void setOdMinuty(int odMinuty) {
+        this.odMinuty = odMinuty;
+    }
+
+    public void setDoMinuty(int doMinuty) {
+        this.doMinuty = doMinuty;
     }
 }

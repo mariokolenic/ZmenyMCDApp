@@ -4,25 +4,25 @@ import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.*;
 import java.util.ArrayList;
 
-public class Smeny {
+public class Smeny implements Serializable {
 
     private ArrayList<Smena> smeny = new ArrayList<>();
 
-    public ArrayList<Smena> getSmeny() {
-        return smeny;
-    }
-
     public void pridajSmenu(User user, int den, int mesiac, int rok, int odHodiny, int odMinuty, int doHodiny, int doMinuty) {
+        System.out.println("----------------  PRIDANIE SMENY  ----------------");
         System.out.println("Datum: " + den + "." + mesiac + "." + rok);
         System.out.println("Od: " + odHodiny + " : " + odMinuty);
         System.out.println("Do: " + doHodiny + " : " + doMinuty);
 
-        for(int i = 0; i < smeny.size(); i++) {
+        for(int i = 0; i < smeny.size(); i++) {  // musí byť takýto for a nie foreach
             if(smeny.get(i).getDatum().getMesiac() == mesiac) {
                 if(smeny.get(i).getDatum().getDen() < den)
                     continue;
+                if(smeny.get(i).getDatum().getDen() == den)
+                    smeny.remove(i);
                 smeny.add(i, new Smena(user, new Datum(den, mesiac, rok), odHodiny, odMinuty, doHodiny, doMinuty));
                 System.out.println("Zmena bola úspešne pridaná.");
                 return;
@@ -32,12 +32,17 @@ public class Smeny {
         System.out.println("Zmena bola úspešne pridaná.");
     }
 
-    public void zmenSmenu() {
-
-    }
-
-    public void zrusSmenu() {
-
+    public void zrusSmenu(int den, int mesiac, int rok) {
+        System.out.println("----------------  ZRUŠENIE SMENY  ----------------");
+        for(Smena smena : smeny) {
+            if(smena.getDatum().getDen() == den &&
+                    smena.getDatum().getMesiac() == mesiac &&
+                    smena.getDatum().getRok() == rok) {
+                smeny.remove(smena);
+                System.out.println("Smena bola úspešne vymazaná");
+                return;
+            }
+        }
     }
 
     public ObservableList<Smena> getNaplanovaneSmenyObservable(Datum datum) {
@@ -97,5 +102,42 @@ public class Smeny {
         }
 
         return String.format("%.02f", celkovaVyplata);
+    }
+
+    public void ulozSmeny() {
+        try {
+            // vytvorenie (alebo hladanie uz vytvoreneho) suboru, kde sa bude serializovat
+            FileOutputStream fileOut = new FileOutputStream("smeny.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(smeny);  // pridavanie jednotlivych objektov
+            out.close();
+            fileOut.close();  // zatvorenie suboru
+            System.out.println("Údaje boli uložené (smeny.ser)");
+        } catch (IOException i) {  // ak sa nahodou nepodari subor vytvorit alebo pre inu chybu
+            i.printStackTrace();  // vypis vynimky (problemu)
+        }
+    }
+
+    public void nacitajSmeny() {
+        smeny = null;
+        try {
+            // pripravenie suboru kde su serializovane denne smeny
+            FileInputStream fileIn = new FileInputStream("smeny.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+
+            // naplnenie zoznamu pre controller
+            smeny = (ArrayList<Smena>) in.readObject();
+
+            in.close();
+            fileIn.close();
+            System.out.println("Smeny sú načítané");
+        } catch (IOException i) {  // chyba pri deserializacii
+            i.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c) {  // chyba nenajdeneho suboru so serializaciou
+            System.out.println("Shifts class not found");
+            c.printStackTrace();
+            return;
+        }
     }
 }

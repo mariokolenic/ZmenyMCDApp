@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 public class PridajOkno {
 
-    public PridajOkno(String vybranyTab, User user, Smeny smeny, Datum datum) {
+    public PridajOkno(User user, Smeny smeny, Datum datum) {
         super();
 
         Stage pridajOkno = new Stage();

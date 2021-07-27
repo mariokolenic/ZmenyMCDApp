@@ -35,6 +35,7 @@ public class MyMCD extends Application {
         Datum datum = new Datum();
         Smeny smeny = new Smeny();
         User user = new User("1.12.2000", true, 3.6, 1);
+        smeny.nacitajSmeny();
 
         hlavneOkno = okno;
         hlavneOkno.setTitle("MCD ZMENY");
@@ -88,6 +89,7 @@ public class MyMCD extends Application {
         TableView<Smena> naplanovaneTable = new TableView<>();
         naplanovaneTable.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
         naplanovaneTable.setEditable(false);
+        naplanovaneTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         naplanovaneTable.setPlaceholder(new Label("Zatiaľ nie sú pridané žiadne zmeny"));
 
         TableColumn<Smena, String> datumColumnNaplanovane = new TableColumn<>("Dátum");
@@ -96,7 +98,6 @@ public class MyMCD extends Application {
 
         TableColumn<Smena, String> denColumnNaplanovane = new TableColumn<>("Deň");
         denColumnNaplanovane.setStyle("-fx-alignment: CENTER;");
-        denColumnNaplanovane.setMaxWidth(78);
         denColumnNaplanovane.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDenString()));
 
         TableColumn<Smena, String> odColumnNaplanovane = new TableColumn<>("Od");
@@ -117,6 +118,7 @@ public class MyMCD extends Application {
         TableView<Smena> odrobeneTable = new TableView<>();
         odrobeneTable.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
         odrobeneTable.setEditable(false);
+        odrobeneTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         odrobeneTable.setPlaceholder(new Label("Zatiaľ nie sú pridané žiadne zmeny"));
 
         TableColumn<Smena, String> datumColumnOdrobene = new TableColumn<>("Dátum");
@@ -125,7 +127,6 @@ public class MyMCD extends Application {
 
         TableColumn<Smena, String> denColumnOdrobene = new TableColumn<>("Deň");
         denColumnOdrobene.setStyle("-fx-alignment: CENTER;");
-        denColumnOdrobene.setMaxWidth(78);
         denColumnOdrobene.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDenString()));
 
         TableColumn<Smena, String> odColumnOdrobene = new TableColumn<>("Od");
@@ -195,7 +196,7 @@ public class MyMCD extends Application {
 
         pridatButton.setOnAction(e -> {
             // System.out.println("Vybraný tab: " + tabPane.getSelectionModel().getSelectedItem().getText() + " SMENY");
-            new PridajOkno(tabPane.getSelectionModel().getSelectedItem().getText(), user, smeny, datum);
+            new PridajOkno(user, smeny, datum);
 
             //refresh tabulky
             naplanovaneTable.getItems().clear();
@@ -204,10 +205,20 @@ public class MyMCD extends Application {
             odrobeneTable.getItems().addAll(smeny.getOdrobeneSmenyObservable(datum));
 
             vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
+            smeny.ulozSmeny();
         });
 
         zrusitButton.setOnAction(e -> {
-            new ZrusOkno(datum);
+            new ZrusOkno(smeny, datum);
+
+            //refresh tabulky
+            naplanovaneTable.getItems().clear();
+            odrobeneTable.getItems().clear();
+            naplanovaneTable.getItems().addAll(smeny.getNaplanovaneSmenyObservable(datum));
+            odrobeneTable.getItems().addAll(smeny.getOdrobeneSmenyObservable(datum));
+
+            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
+            smeny.ulozSmeny();
         });
 
         // spodná časť
