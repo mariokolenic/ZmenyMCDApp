@@ -6,69 +6,67 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 
 public class Smeny {
-    private ArrayList<Smena> naplanovaneSmeny = new ArrayList<>();
-    private ArrayList<Smena> odrobeneSmeny = new ArrayList<>();
 
-    public ArrayList<Smena> getNaplanovaneSmeny() {
-        return naplanovaneSmeny;
+    private ArrayList<Smena> smeny = new ArrayList<>();
+
+    public ArrayList<Smena> getSmeny() {
+        return smeny;
     }
 
-    public ArrayList<Smena> getOdrobeneSmeny() {
-        return odrobeneSmeny;
-    }
-
-    public void pridajNaplanovanuSmenu(User user, int den, int mesiac, int rok, int odHodiny, int odMinuty, int doHodiny, int doMinuty) {
+    public void pridajSmenu(User user, int den, int mesiac, int rok, int odHodiny, int odMinuty, int doHodiny, int doMinuty) {
         System.out.println("Datum: " + den + "." + mesiac + "." + rok);
         System.out.println("Od: " + odHodiny + " : " + odMinuty);
         System.out.println("Do: " + doHodiny + " : " + doMinuty);
 
-        for(int i = 0; i < naplanovaneSmeny.size(); i++) {
-            if(naplanovaneSmeny.get(i).getDatum().getMesiac() == mesiac) {
-                if(naplanovaneSmeny.get(i).getDatum().getDen() < den)
+        for(int i = 0; i < smeny.size(); i++) {
+            if(smeny.get(i).getDatum().getMesiac() == mesiac) {
+                if(smeny.get(i).getDatum().getDen() < den)
                     continue;
-                naplanovaneSmeny.add(i, new Smena(user, new Datum(den, mesiac, rok), odHodiny, odMinuty, doHodiny, doMinuty));
-                System.out.println("Zmena bola úspešne pridaná do naplánovaných zmien.");
+                smeny.add(i, new Smena(user, new Datum(den, mesiac, rok), odHodiny, odMinuty, doHodiny, doMinuty));
+                System.out.println("Zmena bola úspešne pridaná.");
                 return;
             }
         }
-        naplanovaneSmeny.add(new Smena(user, new Datum(den, mesiac, rok), odHodiny, odMinuty, doHodiny, doMinuty));
-        System.out.println("Zmena bola úspešne pridaná do naplánovaných zmien.");
+        smeny.add(new Smena(user, new Datum(den, mesiac, rok), odHodiny, odMinuty, doHodiny, doMinuty));
+        System.out.println("Zmena bola úspešne pridaná.");
     }
 
-    public void pridajOdrobenuSmenu(User user, int den, int mesiac, int rok, int odHodiny, int odMinuty, int doHodiny, int doMinuty) {
-        System.out.println("Datum: " + den + "." + mesiac + "." + rok);
-        System.out.println("Od: " + odHodiny + " : " + odMinuty);
-        System.out.println("Do: " + doHodiny + " : " + doMinuty);
+    public void zmenSmenu() {
 
-        for(int i = 0; i < odrobeneSmeny.size(); i++) {
-            if(odrobeneSmeny.get(i).getDatum().getMesiac() == mesiac) {
-                if(odrobeneSmeny.get(i).getDatum().getDen() < den)
-                    continue;
-                odrobeneSmeny.add(i, new Smena(user, new Datum(den, mesiac, rok), odHodiny, odMinuty, doHodiny, doMinuty));
-                System.out.println("Zmena bola úspešne pridaná do odrobených zmien.");
-                return;
+    }
+
+    public void zrusSmenu() {
+
+    }
+
+    public ObservableList<Smena> getNaplanovaneSmenyObservable(Datum datum) {
+        ArrayList<Smena> naplanovaneSmeny = new ArrayList<>();
+
+        for(int i = 0; i < smeny.size(); i++) {
+            if(datum.getDen() <= smeny.get(i).getDatum().getDen() &&
+                    datum.getMesiac() == smeny.get(i).getDatum().getMesiac() &&
+                    datum.getRok() == smeny.get(i).getDatum().getRok()) {
+                naplanovaneSmeny.add(smeny.get(i));
             }
         }
-        odrobeneSmeny.add(new Smena(user, new Datum(den, mesiac, rok), odHodiny, odMinuty, doHodiny, doMinuty));
-        System.out.println("Zmena bola úspešne pridaná do odrobených zmien.");
+
+        ObservableList<Smena> naplanovaneSmenyObservable = FXCollections.observableArrayList(naplanovaneSmeny);
+        return naplanovaneSmenyObservable;
     }
 
-    public void zrusNaplanovanuSmenu(int den, int mesiac, int rok, int odHodiny, int odMinuty, int doHodiny, int doMinuty) {
+    public ObservableList<Smena> getOdrobeneSmenyObservable(Datum datum) {
+        ArrayList<Smena> odrobeneSmeny = new ArrayList<>();
 
-    }
+        for(int i = 0; i < smeny.size(); i++) {
+            if(datum.getDen() > smeny.get(i).getDatum().getDen() &&
+                    datum.getMesiac() == smeny.get(i).getDatum().getMesiac() &&
+                    datum.getRok() == smeny.get(i).getDatum().getRok()) {
+                odrobeneSmeny.add(smeny.get(i));
+            }
+        }
 
-    public void zrusOdrobenuSmenu(int den, int mesiac, int rok, int odHodiny, int odMinuty, int doHodiny, int doMinuty) {
-
-    }
-
-    public ObservableList<Smena> getNaplanovanaSmena() {
-        ObservableList<Smena> naplanovanaSmena = FXCollections.observableArrayList(naplanovaneSmeny);
-        return naplanovanaSmena;
-    }
-
-    public ObservableList<Smena> getOdrobenaSmena() {
-        ObservableList<Smena> odrobenaSmena = FXCollections.observableArrayList(odrobeneSmeny);
-        return odrobenaSmena;
+        ObservableList<Smena> odrobeneSmenyObservable = FXCollections.observableArrayList(odrobeneSmeny);
+        return odrobeneSmenyObservable;
     }
 
     public String vypocitajVyplatu(String druhSmeny, int mesiac, int rok, User user) {
@@ -76,7 +74,7 @@ public class Smeny {
         double hodinDokopy = 0;
         if(druhSmeny.equals("NAPLÁNOVANÉ")) {
             for(int den = 1; den <= 31; den++) {
-                for(Smena smena : naplanovaneSmeny) {
+                for(Smena smena : smeny) {
                     if(smena.getDatum().getDen() == den &&
                             smena.getDatum().getMesiac() == (mesiac+1) &&
                             smena.getDatum().getRok() == rok) {
@@ -90,7 +88,7 @@ public class Smeny {
         }
         else if(druhSmeny.equals("ODROBENÉ")) {
             for(int den = 1; den <= 31; den++) {
-                for(Smena smena : odrobeneSmeny) {
+                for(Smena smena : smeny) {
                     if(smena.getDatum().getDen() == den &&
                             smena.getDatum().getMesiac() == (mesiac+1) &&
                             smena.getDatum().getRok() == rok) {

@@ -7,6 +7,6 @@ public class Test {
 
         Smeny smeny = new Smeny();
         User user = new User("1.12.2000", true, 3.6, 1);
-        smeny.getNaplanovaneSmeny().add(new Smena(user, new Datum(1, 7, 2021), 16, 0, 22, 0));
+        smeny.getSmeny().add(new Smena(user, new Datum(1, 7, 2021), 16, 0, 22, 0));
     }
 }

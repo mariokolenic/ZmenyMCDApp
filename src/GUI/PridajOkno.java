@@ -57,21 +57,9 @@ public class PridajOkno {
         // tlačidlo ktoré nastaví zadanú smenu s ošetrením zlé zadaného času (kritérium)
         Button pridatButton = new Button("PRIDAŤ");
         pridatButton.setOnAction(e -> {
-            if(vybranyTab.equals("NAPLÁNOVANÉ")) {
-                System.out.println("Naplánované");
-                smeny.pridajNaplanovanuSmenu(user, Integer.parseInt(denText.getText()), Integer.parseInt(mesiacText.getText()),
-                        Integer.parseInt(rokText.getText()), Integer.parseInt(odHodinyText.getText()), Integer.parseInt(odMinutyText.getText()),
-                        Integer.parseInt(doHodinyText.getText()), Integer.parseInt(doMinutyText.getText()));
-            }
-            else if (vybranyTab.equals("ODROBENÉ")){
-                System.out.println("Odrobené");
-                smeny.pridajOdrobenuSmenu(user, Integer.parseInt(denText.getText()), Integer.parseInt(mesiacText.getText()),
-                        Integer.parseInt(rokText.getText()), Integer.parseInt(odHodinyText.getText()), Integer.parseInt(odMinutyText.getText()),
-                        Integer.parseInt(doHodinyText.getText()), Integer.parseInt(doMinutyText.getText()));
-            }
-            else {
-                System.out.println("Chyba v správnom čítaní textu z vybraného tabu!");
-            }
+            smeny.pridajSmenu(user, Integer.parseInt(denText.getText()), Integer.parseInt(mesiacText.getText()),
+                    Integer.parseInt(rokText.getText()), Integer.parseInt(odHodinyText.getText()), Integer.parseInt(odMinutyText.getText()),
+                    Integer.parseInt(doHodinyText.getText()), Integer.parseInt(doMinutyText.getText()));
             pridajOkno.close();
         });
         // rozmiestnenie elementov

@@ -112,7 +112,7 @@ public class MyMCD extends Application {
         hodinColumnNaplanovane.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHodinDokopy()));
 
         naplanovaneTable.getColumns().addAll(datumColumnNaplanovane, denColumnNaplanovane, odColumnNaplanovane, doColumnNaplanovane, hodinColumnNaplanovane);
-        naplanovaneTable.setItems(smeny.getNaplanovanaSmena());
+        naplanovaneTable.setItems(smeny.getNaplanovaneSmenyObservable(datum));
 
         TableView<Smena> odrobeneTable = new TableView<>();
         odrobeneTable.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
@@ -141,7 +141,7 @@ public class MyMCD extends Application {
         hodinColumnOdrobene.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHodinDokopy()));
 
         odrobeneTable.getColumns().addAll(datumColumnOdrobene, denColumnOdrobene, odColumnOdrobene, doColumnOdrobene, hodinColumnOdrobene);
-        odrobeneTable.setItems(smeny.getOdrobenaSmena());
+        odrobeneTable.setItems(smeny.getOdrobeneSmenyObservable(datum));
 
         Tab naplanovaneTab = new Tab("NAPLÁNOVANÉ");
         naplanovaneTab.setClosable(false);
@@ -178,12 +178,15 @@ public class MyMCD extends Application {
                 }
         );
 
-        Label vyplataLabel = new Label("VÝPLATA: " + smeny.vypocitajVyplatu(tabPane.getSelectionModel().getSelectedItem().getText(), mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user));
+        Label vyplataLabel = new Label("VÝPLATA: ");
         vyplataLabel.setAlignment(Pos.CENTER_LEFT);
-        vyplataLabel.setPadding(new Insets(0, 10, 0, 10));
-        vyplataLabel.setMinHeight(40);
-        vyplataLabel.setMaxWidth(400);
+        vyplataLabel.setMinWidth(190);
         vyplataLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: white;" + "-fx-font-size: 20;" + "-fx-background-radius: 10;");
+
+        Label vyplataHodnotaLabel = new Label(smeny.vypocitajVyplatu(tabPane.getSelectionModel().getSelectedItem().getText(), mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
+        vyplataHodnotaLabel.setAlignment(Pos.CENTER_RIGHT);
+        vyplataHodnotaLabel.setMinWidth(190);
+        vyplataHodnotaLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: white;" + "-fx-font-size: 20;" + "-fx-background-radius: 10;");
 
         Button pridatButton = new Button("PRIDAŤ");
         Button zrusitButton = new Button("ZRUŠIŤ");
@@ -196,13 +199,11 @@ public class MyMCD extends Application {
 
             //refresh tabulky
             naplanovaneTable.getItems().clear();
-            naplanovaneTable.getItems().addAll(smeny.getNaplanovanaSmena());
+            odrobeneTable.getItems().clear();
+            naplanovaneTable.getItems().addAll(smeny.getNaplanovaneSmenyObservable(datum));
+            odrobeneTable.getItems().addAll(smeny.getOdrobeneSmenyObservable(datum));
 
-            for(Smena smena : smeny.getNaplanovaneSmeny()) {
-                System.out.println(smena.getDatumString());
-            }
-
-            vyplataLabel.setText("VÝPLATA: " + smeny.vypocitajVyplatu(tabPane.getSelectionModel().getSelectedItem().getText(), mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user));
+            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(tabPane.getSelectionModel().getSelectedItem().getText(), mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
         });
 
         zrusitButton.setOnAction(e -> {
@@ -210,14 +211,22 @@ public class MyMCD extends Application {
         });
 
         // spodná časť
-        HBox hBox = new HBox(20);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.getChildren().addAll(pridatButton, zrusitButton);
+        HBox vyplataBox = new HBox();
+        vyplataBox.setMinHeight(40);
+        vyplataBox.setMaxWidth(380);
+        vyplataBox.setAlignment(Pos.CENTER);
+        vyplataBox.setPadding(new Insets(0, 10, 0, 10));
+        vyplataBox.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: white;" + "-fx-font-size: 20;" + "-fx-background-radius: 10;");
+        vyplataBox.getChildren().addAll(vyplataLabel, vyplataHodnotaLabel);
+
+        HBox tlacidlaBox = new HBox(20);
+        tlacidlaBox.setAlignment(Pos.CENTER);
+        tlacidlaBox.getChildren().addAll(pridatButton, zrusitButton);
 
         // container
         VBox vBox = new VBox(15);
         vBox.setAlignment(Pos.TOP_CENTER);
-        vBox.getChildren().addAll(topContainer, obdobieContainer, tabPane, vyplataLabel, hBox);
+        vBox.getChildren().addAll(topContainer, obdobieContainer, tabPane, vyplataBox, tlacidlaBox);
         vBox.setStyle("-fx-background-color: lightgray;");
 
         hlavneOkno.setScene(new Scene(vBox, 500, 700));

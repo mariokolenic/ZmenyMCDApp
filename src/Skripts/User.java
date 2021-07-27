@@ -4,14 +4,14 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class User {
-    private String datumNarodenia;
-    private int denNarodenia;
-    private int mesiacNarodenia;
-    private int rokNarodenia;
-    private int vek;
+    private String datumNarodenia = null;
+    private int denNarodenia = 0;
+    private int mesiacNarodenia = 0;
+    private int rokNarodenia = 0;
+    private int vek = 0;
     private boolean dbps;
-    private double mzda;
-    private double osatne;
+    private double mzda = 0;
+    private double osatne = 0;
 
     public User(String datumNarodenia, boolean dbps, double mzda, double osatne) {
         this.datumNarodenia = datumNarodenia;
