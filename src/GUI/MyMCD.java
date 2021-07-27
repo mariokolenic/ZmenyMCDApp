@@ -171,7 +171,7 @@ public class MyMCD extends Application {
                 new ChangeListener<Tab>() {
                     @Override
                     public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
-                        System.out.println(ov.getValue().getText());
+                        //System.out.println(ov.getValue().getText());
                         t.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;" + "-fx-background-color: white;");
                         t1.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;" + "-fx-background-color: green;" + "-fx-text-base-color: white;");
                     }
@@ -183,7 +183,7 @@ public class MyMCD extends Application {
         vyplataLabel.setMinWidth(190);
         vyplataLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: white;" + "-fx-font-size: 20;" + "-fx-background-radius: 10;");
 
-        Label vyplataHodnotaLabel = new Label(smeny.vypocitajVyplatu(tabPane.getSelectionModel().getSelectedItem().getText(), mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
+        Label vyplataHodnotaLabel = new Label(smeny.vypocitajVyplatu(mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
         vyplataHodnotaLabel.setAlignment(Pos.CENTER_RIGHT);
         vyplataHodnotaLabel.setMinWidth(190);
         vyplataHodnotaLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: white;" + "-fx-font-size: 20;" + "-fx-background-radius: 10;");
@@ -194,7 +194,7 @@ public class MyMCD extends Application {
         zrusitButton.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: firebrick;" + "-fx-font-size: 25;" + "-fx-text-fill: white;" + "-fx-background-radius: 10");
 
         pridatButton.setOnAction(e -> {
-            System.out.println("Vybraný tab: " + tabPane.getSelectionModel().getSelectedItem().getText() + " SMENY");
+            // System.out.println("Vybraný tab: " + tabPane.getSelectionModel().getSelectedItem().getText() + " SMENY");
             new PridajOkno(tabPane.getSelectionModel().getSelectedItem().getText(), user, smeny, datum);
 
             //refresh tabulky
@@ -203,7 +203,7 @@ public class MyMCD extends Application {
             naplanovaneTable.getItems().addAll(smeny.getNaplanovaneSmenyObservable(datum));
             odrobeneTable.getItems().addAll(smeny.getOdrobeneSmenyObservable(datum));
 
-            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(tabPane.getSelectionModel().getSelectedItem().getText(), mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
+            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
         });
 
         zrusitButton.setOnAction(e -> {

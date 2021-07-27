@@ -1,5 +1,6 @@
 package Skripts;
 
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -69,40 +70,32 @@ public class Smeny {
         return odrobeneSmenyObservable;
     }
 
-    public String vypocitajVyplatu(String druhSmeny, int mesiac, int rok, User user) {
+    public String vypocitajVyplatu(int mesiac, int rok, User user) {
         double celkovaVyplata = 0;
         double hodinDokopy = 0;
-        if(druhSmeny.equals("NAPLÁNOVANÉ")) {
-            for(int den = 1; den <= 31; den++) {
-                for(Smena smena : smeny) {
-                    if(smena.getDatum().getDen() == den &&
-                            smena.getDatum().getMesiac() == (mesiac+1) &&
-                            smena.getDatum().getRok() == rok) {
-                        hodinDokopy += smena.getDlzkaSmeny();
-                        celkovaVyplata += smena.getDlzkaSmeny() * user.getMzda();
-                        celkovaVyplata += smena.getPriplatok();
-                        break;
-                    }
-                }
-            }
-        }
-        else if(druhSmeny.equals("ODROBENÉ")) {
-            for(int den = 1; den <= 31; den++) {
-                for(Smena smena : smeny) {
-                    if(smena.getDatum().getDen() == den &&
-                            smena.getDatum().getMesiac() == (mesiac+1) &&
-                            smena.getDatum().getRok() == rok) {
-                        hodinDokopy += smena.getDlzkaSmeny();
-                        celkovaVyplata += smena.getDlzkaSmeny() * user.getMzda();
-                        celkovaVyplata += smena.getPriplatok();
-                        break;
-                    }
-                }
+        for(Smena smena : smeny) {
+            if(smena.getDatum().getMesiac() == (mesiac+1) && smena.getDatum().getRok() == rok) {
+                hodinDokopy += smena.getDlzkaSmeny();
+                celkovaVyplata += smena.getDlzkaSmeny() * user.getMzda();
+                celkovaVyplata += smena.getPriplatok();
             }
         }
 
-        celkovaVyplata += hodinDokopy;
-        System.out.println("Hodín dokopy: " + hodinDokopy + "\nCelková výplata: " + celkovaVyplata);
+        if(user.isDbps()) {
+            System.out.println("Celkový príjem: " + celkovaVyplata);
+            celkovaVyplata -= (Math.max(0, (celkovaVyplata-200)) / 100) * 4;  // starobné poistenie
+            System.out.println("Starobné poistenie: " + celkovaVyplata);
+            celkovaVyplata -= (Math.max(0, (celkovaVyplata-200)) / 100) * 3;  // invalidné poistenie
+            System.out.println("Invalidné poistenie: " + celkovaVyplata);
+            celkovaVyplata -= (Math.max(0, (celkovaVyplata - 375.95)) / 100) * 20;
+            System.out.println("Čistý príjem: " + celkovaVyplata);
+            celkovaVyplata += hodinDokopy;
+            System.out.println("Na účet: " + celkovaVyplata);
+        }
+        else {
+            System.out.println("Toto treba zrobiť :(");
+        }
+
         return String.format("%.02f", celkovaVyplata);
     }
 }
