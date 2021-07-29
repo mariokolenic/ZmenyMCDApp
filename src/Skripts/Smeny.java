@@ -11,7 +11,7 @@ public class Smeny implements Serializable {
     private ArrayList<Smena> smeny = new ArrayList<>();
 
     public void pridajSmenu(User user, int den, int mesiac, int rok, int odHodiny, int odMinuty, int doHodiny, int doMinuty) {
-        System.out.println("----------------  PRIDANIE SMENY  ----------------");
+        System.out.println("\n----------------  PRIDANIE SMENY  ----------------");
         System.out.println("Datum: " + den + "." + mesiac + "." + rok);
         System.out.println("Od: " + odHodiny + " : " + odMinuty);
         System.out.println("Do: " + doHodiny + " : " + doMinuty);
@@ -32,7 +32,7 @@ public class Smeny implements Serializable {
     }
 
     public void zrusSmenu(int den, int mesiac, int rok) {
-        System.out.println("----------------  ZRUŠENIE SMENY  ----------------");
+        System.out.println("\n----------------  ZRUŠENIE SMENY  ----------------");
         for(Smena smena : smeny) {
             if(smena.getDatum().getDen() == den &&
                     smena.getDatum().getMesiac() == mesiac &&
@@ -44,14 +44,22 @@ public class Smeny implements Serializable {
         }
     }
 
-    public ObservableList<Smena> getNaplanovaneSmenyObservable(Datum datum) {
+    public ObservableList<Smena> getNaplanovaneSmenyObservable(Datum datum, int mesiac, int rok) {
         ArrayList<Smena> naplanovaneSmeny = new ArrayList<>();
 
         for(int i = 0; i < smeny.size(); i++) {
-            if(datum.getDen() <= smeny.get(i).getDatum().getDen() &&
-                    datum.getMesiac() == smeny.get(i).getDatum().getMesiac() &&
-                    datum.getRok() == smeny.get(i).getDatum().getRok()) {
-                naplanovaneSmeny.add(smeny.get(i));
+            if((mesiac+1) > datum.getMesiac() && rok >= datum.getRok()) {
+                if(smeny.get(i).getDatum().getMesiac() == (mesiac+1) &&
+                        smeny.get(i).getDatum().getRok() == rok) {
+                    naplanovaneSmeny.add(smeny.get(i));
+                }
+            }
+            else if((mesiac+1) == datum.getMesiac() && rok == datum.getRok()){
+                if(smeny.get(i).getDatum().getDen() >= datum.getDen() &&
+                        smeny.get(i).getDatum().getMesiac() == (mesiac+1) &&
+                        smeny.get(i).getDatum().getRok() == rok) {
+                    naplanovaneSmeny.add(smeny.get(i));
+                }
             }
         }
 
@@ -59,14 +67,22 @@ public class Smeny implements Serializable {
         return naplanovaneSmenyObservable;
     }
 
-    public ObservableList<Smena> getOdrobeneSmenyObservable(Datum datum) {
+    public ObservableList<Smena> getOdrobeneSmenyObservable(Datum datum, int mesiac, int rok) {
         ArrayList<Smena> odrobeneSmeny = new ArrayList<>();
 
         for(int i = 0; i < smeny.size(); i++) {
-            if(datum.getDen() > smeny.get(i).getDatum().getDen() &&
-                    datum.getMesiac() == smeny.get(i).getDatum().getMesiac() &&
-                    datum.getRok() == smeny.get(i).getDatum().getRok()) {
-                odrobeneSmeny.add(smeny.get(i));
+            if((mesiac+1) < datum.getMesiac() && rok <= datum.getRok()) {
+                if(smeny.get(i).getDatum().getMesiac() == (mesiac+1) &&
+                        smeny.get(i).getDatum().getRok() == rok) {
+                    odrobeneSmeny.add(smeny.get(i));
+                }
+            }
+            else if((mesiac+1) == datum.getMesiac() && rok == datum.getRok()){
+                if(smeny.get(i).getDatum().getDen() < datum.getDen() &&
+                        smeny.get(i).getDatum().getMesiac() == (mesiac+1) &&
+                        smeny.get(i).getDatum().getRok() == rok) {
+                    odrobeneSmeny.add(smeny.get(i));
+                }
             }
         }
 
@@ -75,6 +91,7 @@ public class Smeny implements Serializable {
     }
 
     public String vypocitajVyplatu(int mesiac, int rok, User user) {
+        System.out.println("\n----------------  VÝPOČET VÝPLATY  ----------------");
         double celkovaVyplata = 0;
         double hodinDokopy = 0;
         for(Smena smena : smeny) {

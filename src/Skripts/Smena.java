@@ -28,7 +28,7 @@ public class Smena implements Serializable {
         doHodiny *= 60;
 
         if(doHodiny < odHodiny) {
-            dlzkaSmeny = (doHodiny + 1440 + doMinuty) - (odHodiny + odMinuty);  // 1440 je 24 hodín
+            dlzkaSmeny = (doHodiny + 1440 + doMinuty) - (odHodiny + odMinuty);  // 1440 minút je 24 hodín
         }
         else {
             dlzkaSmeny = (doHodiny + doMinuty) - (odHodiny + odMinuty);
@@ -51,21 +51,26 @@ public class Smena implements Serializable {
         }
 
         // nočný
-        if(doHodiny < odHodiny) {
-            doHodiny += 24;
-            for(int hodina = odHodiny; hodina <= doHodiny; hodina++) {
-                if(hodina > 22) {
-                    priplatok += 1.42;
+        odHodiny *= 60;
+        doHodiny *= 60;
+        int zaciatok = odHodiny + odMinuty;
+        int koniec = doHodiny + doMinuty;
+        if(koniec < zaciatok) {
+            koniec += 1440;  // 1440 je v minútach --> 24 hodín
+            for(int hodina = zaciatok; hodina <= koniec; hodina++) {
+                if(hodina > 1320) {  // 1320 minút - 22 hodín
+                    priplatok += (1.42 / 60);
                 }
             }
-            doHodiny -= 24;
         }
         else {
-            for(int hodina = odHodiny; hodina <= doHodiny; hodina++) {
-                if(hodina > 22)
-                    priplatok += 1.42;
+            for(int hodina = zaciatok; hodina <= koniec; hodina++) {
+                if(hodina > 1320)  // 1320 minút - 22 hodín
+                    priplatok += (1.42 / 60);
             }
         }
+        odHodiny /= 60;
+        doHodiny /= 60;
 
         // sviatky
         int den = datum.getDen();
@@ -85,7 +90,7 @@ public class Smena implements Serializable {
                 den == 24 && mesiac == 12 ||
                 den == 25 && mesiac == 12 ||
                 den == 26 && mesiac == 12) {
-            priplatok += 3.58;
+            priplatok += dlzkaSmeny * 3.58;
         }
     }
 
