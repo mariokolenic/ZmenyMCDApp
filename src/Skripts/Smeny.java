@@ -99,9 +99,7 @@ public class Smeny implements Serializable {
             if(smena.getDatum().getMesiac() == (mesiac+1) && smena.getDatum().getRok() == rok) {
                 hodinDokopy += smena.getDlzkaSmeny();
                 celkovaVyplata += smena.getDlzkaSmeny() * user.getMzda();
-                System.out.println("Celkova vyplata: " + celkovaVyplata);
                 celkovaVyplata += smena.getPriplatok();
-                System.out.println("+ príplatok: " + celkovaVyplata);
             }
         }
 

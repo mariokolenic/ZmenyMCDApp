@@ -1,9 +1,6 @@
 package GUI;
 
-import Skripts.Datum;
-import Skripts.Smena;
-import Skripts.Smeny;
-import Skripts.User;
+import Skripts.*;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -34,7 +31,8 @@ public class MyMCD extends Application {
     public void start(Stage okno) throws FileNotFoundException {
         Datum datum = new Datum();
         Smeny smeny = new Smeny();
-        User user = new User("1.12.2000", true, 3.6, 1);
+        UserController userController = new UserController();
+        userController.nacitajUsera();
         smeny.nacitajSmeny();
 
         hlavneOkno = okno;
@@ -58,7 +56,7 @@ public class MyMCD extends Application {
         profilButton.setMaxHeight(40);
         profilButton.setPadding(new Insets(0,0,0,0));
         profilButton.setStyle("-fx-background-radius: 40;" + "-fx-focus-color: transparent;");
-        profilButton.setOnAction(e -> new ProfilOkno());
+        profilButton.setOnAction(e -> new ProfilOkno(userController.getUser()));
 
         HBox topContainer = new HBox();
         topContainer.setMinHeight(60);
@@ -110,7 +108,7 @@ public class MyMCD extends Application {
 
         TableColumn<Smena, String> hodinColumnNaplanovane = new TableColumn<>("Hodín");
         hodinColumnNaplanovane.setStyle("-fx-alignment: CENTER;");
-        hodinColumnNaplanovane.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHodinDokopy(user)));
+        hodinColumnNaplanovane.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHodinDokopy(userController.getUser())));
 
         naplanovaneTable.getColumns().addAll(datumColumnNaplanovane, denColumnNaplanovane, odColumnNaplanovane, doColumnNaplanovane, hodinColumnNaplanovane);
         naplanovaneTable.setItems(smeny.getNaplanovaneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
@@ -139,7 +137,7 @@ public class MyMCD extends Application {
 
         TableColumn<Smena, String> hodinColumnOdrobene = new TableColumn<>("Hodín");
         hodinColumnOdrobene.setStyle("-fx-alignment: CENTER;");
-        hodinColumnOdrobene.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHodinDokopy(user)));
+        hodinColumnOdrobene.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHodinDokopy(userController.getUser())));
 
         odrobeneTable.getColumns().addAll(datumColumnOdrobene, denColumnOdrobene, odColumnOdrobene, doColumnOdrobene, hodinColumnOdrobene);
         odrobeneTable.setItems(smeny.getOdrobeneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
@@ -184,7 +182,7 @@ public class MyMCD extends Application {
         vyplataLabel.setMinWidth(190);
         vyplataLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: white;" + "-fx-font-size: 20;" + "-fx-background-radius: 10;");
 
-        Label vyplataHodnotaLabel = new Label(smeny.vypocitajVyplatu(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
+        Label vyplataHodnotaLabel = new Label(smeny.vypocitajVyplatu(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), userController.getUser()) + " €");
         vyplataHodnotaLabel.setAlignment(Pos.CENTER_RIGHT);
         vyplataHodnotaLabel.setMinWidth(190);
         vyplataHodnotaLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: white;" + "-fx-font-size: 20;" + "-fx-background-radius: 10;");
@@ -195,7 +193,7 @@ public class MyMCD extends Application {
             naplanovaneTable.getItems().addAll(smeny.getNaplanovaneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
             odrobeneTable.getItems().addAll(smeny.getOdrobeneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
 
-            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
+            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), userController.getUser()) + " €");
         });
 
         yearChoice.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
@@ -204,7 +202,7 @@ public class MyMCD extends Application {
             naplanovaneTable.getItems().addAll(smeny.getNaplanovaneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
             odrobeneTable.getItems().addAll(smeny.getOdrobeneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
 
-            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
+            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), userController.getUser()) + " €");
         });
 
 
@@ -215,7 +213,7 @@ public class MyMCD extends Application {
 
         pridatButton.setOnAction(e -> {
             // System.out.println("Vybraný tab: " + tabPane.getSelectionModel().getSelectedItem().getText() + " SMENY");
-            new PridajOkno(user, smeny, datum);
+            new PridajOkno(userController.getUser(), smeny, datum);
 
             //refresh tabulky
             naplanovaneTable.getItems().clear();
@@ -223,7 +221,7 @@ public class MyMCD extends Application {
             naplanovaneTable.getItems().addAll(smeny.getNaplanovaneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
             odrobeneTable.getItems().addAll(smeny.getOdrobeneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
 
-            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
+            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), userController.getUser()) + " €");
             smeny.ulozSmeny();
         });
 
@@ -236,7 +234,7 @@ public class MyMCD extends Application {
             naplanovaneTable.getItems().addAll(smeny.getNaplanovaneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
             odrobeneTable.getItems().addAll(smeny.getOdrobeneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
 
-            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
+            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), userController.getUser()) + " €");
             smeny.ulozSmeny();
         });
 

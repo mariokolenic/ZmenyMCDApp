@@ -1,11 +1,12 @@
 package Skripts;
 
-import java.io.Serializable;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 
 public class User implements Serializable {
-    private String datumNarodenia = null;
+    private String datumNarodenia = "";
     private int denNarodenia = 0;
     private int mesiacNarodenia = 0;
     private int rokNarodenia = 0;

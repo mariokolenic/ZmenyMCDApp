@@ -1,5 +1,6 @@
 package GUI;
 
+import Skripts.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,7 +11,7 @@ import javafx.stage.Stage;
 
 public class ProfilOkno {
 
-    public ProfilOkno() {
+    public ProfilOkno(User user) {
         super();
 
         Stage profilOkno = new Stage();
@@ -26,10 +27,11 @@ public class ProfilOkno {
         Label mzdaLabel = new Label("Hodinová mzda: ");
         Label osatneLabel = new Label("Ošatné: ");
 
-        TextField narodenieText = new TextField();
+        TextField narodenieText = new TextField("" + user.getDatumNarodenia());
         CheckBox dbpsCHBox = new CheckBox("Študent brigádnik");
-        TextField mzdaText = new TextField();
-        TextField osatneText = new TextField("1,00");
+        dbpsCHBox.setSelected(user.isDbps());
+        TextField mzdaText = new TextField("" + user.getMzda());
+        TextField osatneText = new TextField("" + user.getOsatne());
 
         nadpisLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
         datumNarodeniaLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
