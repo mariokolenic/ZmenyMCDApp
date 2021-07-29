@@ -23,19 +23,26 @@ public class Smena implements Serializable {
     }
 
     public void vypocetDlzkySmeny(User user, int odHodiny, int odMinuty, int doHodiny, int doMinuty) {
+        // počítam do minút a na konci to vydelím zasa do hodín
+        odHodiny *= 60;
+        doHodiny *= 60;
+
         if(doHodiny < odHodiny) {
-            dlzkaSmeny = (doHodiny + 24 + (doMinuty/60)) - (odHodiny + (odMinuty/60));
+            dlzkaSmeny = (doHodiny + 1440 + doMinuty) - (odHodiny + odMinuty);  // 1440 je 24 hodín
         }
         else {
-            dlzkaSmeny = (doHodiny + (doMinuty/60)) - (odHodiny + (odMinuty/60));
+            dlzkaSmeny = (doHodiny + doMinuty) - (odHodiny + odMinuty);
         }
+        dlzkaSmeny /= 60;
         if(user.getVek() < 18 && dlzkaSmeny >= 4 ||
-                user.getVek() >= 18 && dlzkaSmeny >= 6) {
+                user.getVek() >= 18 && dlzkaSmeny >= 7) {
             dlzkaSmeny -= 0.5;
         }
     }
 
     public void vypocetPriplatku() {
+        priplatok = 0;
+        // sobota nedela
         if(datum.getDayFromDate(datum.getDen(), datum.getMesiac(), datum.getRok()).equals("So")) {  // Sobota
             priplatok += dlzkaSmeny * 1.79;
         }
@@ -43,19 +50,42 @@ public class Smena implements Serializable {
             priplatok += dlzkaSmeny * 3.58;
         }
 
+        // nočný
         if(doHodiny < odHodiny) {
             doHodiny += 24;
             for(int hodina = odHodiny; hodina <= doHodiny; hodina++) {
-                if(hodina >= 22)
+                if(hodina > 22) {
                     priplatok += 1.42;
+                }
             }
             doHodiny -= 24;
         }
         else {
             for(int hodina = odHodiny; hodina <= doHodiny; hodina++) {
-                if(hodina >= 22)
+                if(hodina > 22)
                     priplatok += 1.42;
             }
+        }
+
+        // sviatky
+        int den = datum.getDen();
+        int mesiac = datum.getMesiac();
+        if(den == 1 && mesiac == 1 ||
+                den == 6 && mesiac == 1 ||
+                den == 2 && mesiac == 4 ||  // velká noc
+                den == 5 && mesiac == 4 ||  // velká noc
+                den == 1 && mesiac == 5 ||
+                den == 8 && mesiac == 5 ||
+                den == 5 && mesiac == 7 ||
+                den == 29 && mesiac == 8 ||
+                den == 1 && mesiac == 9 ||
+                den == 15 && mesiac == 9 ||
+                den == 1 && mesiac == 11 ||
+                den == 17 && mesiac == 11 ||
+                den == 24 && mesiac == 12 ||
+                den == 25 && mesiac == 12 ||
+                den == 26 && mesiac == 12) {
+            priplatok += 3.58;
         }
     }
 
@@ -79,7 +109,8 @@ public class Smena implements Serializable {
         return String.format("%02d", doHodiny) + ":" + String.format("%02d", doMinuty);
     }
 
-    public String getHodinDokopy() {
+    public String getHodinDokopy(User user) {
+        vypocetDlzkySmeny(user, odHodiny, odMinuty, doHodiny, doMinuty);
         return String.format("%.1f", dlzkaSmeny);
     }
 

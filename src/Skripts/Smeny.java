@@ -1,6 +1,5 @@
 package Skripts;
 
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -82,11 +81,14 @@ public class Smeny implements Serializable {
             if(smena.getDatum().getMesiac() == (mesiac+1) && smena.getDatum().getRok() == rok) {
                 hodinDokopy += smena.getDlzkaSmeny();
                 celkovaVyplata += smena.getDlzkaSmeny() * user.getMzda();
+                System.out.println("Celkova vyplata: " + celkovaVyplata);
                 celkovaVyplata += smena.getPriplatok();
+                System.out.println("+ príplatok: " + celkovaVyplata);
             }
         }
 
         if(user.isDbps()) {
+            System.out.println("Hodín dokopy: " + hodinDokopy);
             System.out.println("Celkový príjem: " + celkovaVyplata);
             celkovaVyplata -= (Math.max(0, (celkovaVyplata-200)) / 100) * 4;  // starobné poistenie
             System.out.println("Starobné poistenie: " + celkovaVyplata);
@@ -130,6 +132,9 @@ public class Smeny implements Serializable {
 
             in.close();
             fileIn.close();
+            for(Smena smena : smeny) {
+                smena.vypocetPriplatku();
+            }
             System.out.println("Smeny sú načítané");
         } catch (IOException i) {  // chyba pri deserializacii
             i.printStackTrace();

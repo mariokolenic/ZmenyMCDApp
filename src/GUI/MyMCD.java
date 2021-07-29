@@ -110,7 +110,7 @@ public class MyMCD extends Application {
 
         TableColumn<Smena, String> hodinColumnNaplanovane = new TableColumn<>("Hodín");
         hodinColumnNaplanovane.setStyle("-fx-alignment: CENTER;");
-        hodinColumnNaplanovane.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHodinDokopy()));
+        hodinColumnNaplanovane.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHodinDokopy(user)));
 
         naplanovaneTable.getColumns().addAll(datumColumnNaplanovane, denColumnNaplanovane, odColumnNaplanovane, doColumnNaplanovane, hodinColumnNaplanovane);
         naplanovaneTable.setItems(smeny.getNaplanovaneSmenyObservable(datum));
@@ -139,7 +139,7 @@ public class MyMCD extends Application {
 
         TableColumn<Smena, String> hodinColumnOdrobene = new TableColumn<>("Hodín");
         hodinColumnOdrobene.setStyle("-fx-alignment: CENTER;");
-        hodinColumnOdrobene.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHodinDokopy()));
+        hodinColumnOdrobene.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHodinDokopy(user)));
 
         odrobeneTable.getColumns().addAll(datumColumnOdrobene, denColumnOdrobene, odColumnOdrobene, doColumnOdrobene, hodinColumnOdrobene);
         odrobeneTable.setItems(smeny.getOdrobeneSmenyObservable(datum));
