@@ -1,6 +1,9 @@
 package Skripts;
 
 import java.io.*;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -20,12 +23,18 @@ public class User implements Serializable {
         this.dbps = dbps;
         this.mzda = mzda;
         this.osatne = osatne;
+        nastavParametreNarodenia();
+        vypocitajVek();
+    }
+
+    public User() {}
+
+    public void nastavParametreNarodenia() {
         String[] arrOfStr = datumNarodenia.split("\\.", 3);  // ziskanie jednotlivých hodnot, ktore su oddelene bodkou do pola
         // kazdy index predstavuje jeden parameter
         this.denNarodenia = Integer.parseInt(arrOfStr[0]);
         this.mesiacNarodenia = Integer.parseInt(arrOfStr[1]);
         this.rokNarodenia = Integer.parseInt(arrOfStr[2]);
-        vypocitajVek();
     }
 
     public void vypocitajVek() {
@@ -57,5 +66,25 @@ public class User implements Serializable {
 
     public int getVek() {
         return vek;
+    }
+
+    public void setDatumNarodenia(String datumNarodenia) {
+        this.datumNarodenia = datumNarodenia;
+        nastavParametreNarodenia();
+        vypocitajVek();
+    }
+
+    public void setDbps(boolean dbps) {
+        this.dbps = dbps;
+    }
+
+    public void setMzda(String mzdaString) {
+        mzdaString = mzdaString.replace(',', '.');
+        this.mzda = Double.parseDouble(mzdaString);
+    }
+
+    public void setOsatne(String osatneString) {
+        osatneString = osatneString.replace(',', '.');
+        this.osatne = Double.parseDouble(osatneString);
     }
 }

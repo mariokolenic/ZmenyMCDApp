@@ -15,6 +15,19 @@ public class UserController {
         return user;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public boolean firstLogin() {
+        if(user.getDatumNarodenia().equals("1.1.1") || user.getMzda() == 0 || user.getOsatne() == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public void ulozUsera() {
         try {
             // vytvorenie (alebo hladanie uz vytvoreneho) suboru, kde sa bude serializovat
