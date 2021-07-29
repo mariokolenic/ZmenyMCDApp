@@ -90,8 +90,9 @@ public class Smeny implements Serializable {
         return odrobeneSmenyObservable;
     }
 
-    public String vypocitajVyplatu(int mesiac, int rok, User user) {
+    public String vypocitajVyplatu(Datum datum, int mesiac, int rok, User user) {
         System.out.println("\n----------------  VÝPOČET VÝPLATY  ----------------");
+        System.out.println("----------------  OBDOBIE: " + datum.getMesiacString(mesiac) + "  ----------------");
         double celkovaVyplata = 0;
         double hodinDokopy = 0;
         for(Smena smena : smeny) {

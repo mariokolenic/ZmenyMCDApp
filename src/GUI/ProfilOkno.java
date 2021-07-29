@@ -31,17 +31,22 @@ public class ProfilOkno {
         TextField mzdaText = new TextField();
         TextField osatneText = new TextField("1,00");
 
-        Button ulozitButton = new Button("ULOŽIŤ");
-        ulozitButton.setOnAction(e -> {
-            profilOkno.close();
-        });
-        ulozitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-
         nadpisLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
         datumNarodeniaLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
         zmluvaLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
         mzdaLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
         osatneLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
+        narodenieText.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
+        dbpsCHBox.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
+        mzdaText.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
+        osatneText.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
+
+        Button ulozitButton = new Button("ULOŽIŤ");
+        ulozitButton.setOnAction(e -> {
+            profilOkno.close();
+        });
+        ulozitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        ulozitButton.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: green;" + "-fx-font-size: 20;" + "-fx-text-fill: aliceblue;" + "-fx-background-radius: 10");
 
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);

@@ -184,7 +184,7 @@ public class MyMCD extends Application {
         vyplataLabel.setMinWidth(190);
         vyplataLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: white;" + "-fx-font-size: 20;" + "-fx-background-radius: 10;");
 
-        Label vyplataHodnotaLabel = new Label(smeny.vypocitajVyplatu(mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
+        Label vyplataHodnotaLabel = new Label(smeny.vypocitajVyplatu(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
         vyplataHodnotaLabel.setAlignment(Pos.CENTER_RIGHT);
         vyplataHodnotaLabel.setMinWidth(190);
         vyplataHodnotaLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: white;" + "-fx-font-size: 20;" + "-fx-background-radius: 10;");
@@ -195,7 +195,7 @@ public class MyMCD extends Application {
             naplanovaneTable.getItems().addAll(smeny.getNaplanovaneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
             odrobeneTable.getItems().addAll(smeny.getOdrobeneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
 
-            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
+            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
         });
 
         yearChoice.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
@@ -204,7 +204,7 @@ public class MyMCD extends Application {
             naplanovaneTable.getItems().addAll(smeny.getNaplanovaneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
             odrobeneTable.getItems().addAll(smeny.getOdrobeneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
 
-            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
+            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
         });
 
 
@@ -223,7 +223,7 @@ public class MyMCD extends Application {
             naplanovaneTable.getItems().addAll(smeny.getNaplanovaneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
             odrobeneTable.getItems().addAll(smeny.getOdrobeneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
 
-            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
+            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
             smeny.ulozSmeny();
         });
 
@@ -236,7 +236,7 @@ public class MyMCD extends Application {
             naplanovaneTable.getItems().addAll(smeny.getNaplanovaneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
             odrobeneTable.getItems().addAll(smeny.getOdrobeneSmenyObservable(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem()));
 
-            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
+            vyplataHodnotaLabel.setText(smeny.vypocitajVyplatu(datum, mounthChoice.getSelectionModel().getSelectedIndex(), yearChoice.getSelectionModel().getSelectedItem(), user) + " €");
             smeny.ulozSmeny();
         });
 

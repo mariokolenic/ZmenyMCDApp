@@ -28,8 +28,8 @@ public class PridajOkno {
         Label doLabel = new Label("DO : ");
         Label bodka1 = new Label(" .");
         Label bodka2 = new Label(" . ");
-        Label dvjbodka1 = new Label(" : ");
-        Label dvjbodka2 = new Label(" : ");
+        Label dvojbodka1 = new Label(" : ");
+        Label dvojbodka2 = new Label(" : ");
 
         TextField denText = new TextField();
         TextField mesiacText = new TextField();
@@ -54,6 +54,21 @@ public class PridajOkno {
         odMinutyText.setMaxWidth(40);
         doMinutyText.setMaxWidth(40);
 
+        datumLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
+        odLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
+        doLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
+        bodka1.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
+        bodka2.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
+        dvojbodka1.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
+        dvojbodka2.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
+        denText.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
+        mesiacText.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
+        rokText.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
+        odHodinyText.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
+        odMinutyText.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
+        doHodinyText.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
+        doMinutyText.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
+
         // tlačidlo ktoré nastaví zadanú smenu s ošetrením zlé zadaného času (kritérium)
         Button pridatButton = new Button("PRIDAŤ");
         pridatButton.setOnAction(e -> {
@@ -64,6 +79,7 @@ public class PridajOkno {
         });
         // rozmiestnenie elementov
         pridatButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        pridatButton.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: green;" + "-fx-font-size: 20;" + "-fx-text-fill: aliceblue;" + "-fx-background-radius: 10");
 
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
@@ -80,18 +96,18 @@ public class PridajOkno {
 
         GridPane.setConstraints(odLabel, 0,1);
         GridPane.setConstraints(odHodinyText, 1,1);
-        GridPane.setConstraints(dvjbodka1, 2, 1);
+        GridPane.setConstraints(dvojbodka1, 2, 1);
         GridPane.setConstraints(odMinutyText, 3, 1);
 
         GridPane.setConstraints(doLabel, 0,2);
         GridPane.setConstraints(doHodinyText, 1,2);
-        GridPane.setConstraints(dvjbodka2, 2, 2);
+        GridPane.setConstraints(dvojbodka2, 2, 2);
         GridPane.setConstraints(doMinutyText, 3, 2, 1, 1);
 
         GridPane.setConstraints(pridatButton, 0, 3, 6, 1);
 
         gridPane.getChildren().addAll(datumLabel, denText, mesiacText, rokText, odLabel, odHodinyText, odMinutyText,
-                doLabel, doHodinyText, doMinutyText, bodka1, bodka2, dvjbodka1, dvjbodka2, pridatButton);
+                doLabel, doHodinyText, doMinutyText, bodka1, bodka2, dvojbodka1, dvojbodka2, pridatButton);
 
         Scene scene = new Scene(gridPane, 450, 300);
         pridajOkno.setScene(scene);

@@ -41,6 +41,13 @@ public class ZrusOkno {
         mesiacText.setMaxWidth(40);
         rokText.setMaxWidth(80);
 
+        datumLabel.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
+        bodka1.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
+        bodka2.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 20;");
+        denText.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
+        mesiacText.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
+        rokText.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-font-size: 15;");
+
         // tlačidlo ktoré nastaví zadanú smenu s ošetrením zlé zadaného času (kritérium)
         Button zrusButton = new Button("ZRUŠIŤ");
         zrusButton.setOnAction(e -> {
@@ -50,6 +57,7 @@ public class ZrusOkno {
         });
         // rozmiestnenie elementov
         zrusButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        zrusButton.setStyle("-fx-font-family: 'Source Sans Pro';" + "-fx-background-color: firebrick;" + "-fx-font-size: 20;" + "-fx-text-fill: aliceblue;" + "-fx-background-radius: 10");
 
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
@@ -68,7 +76,7 @@ public class ZrusOkno {
 
         gridPane.getChildren().addAll(datumLabel, denText, mesiacText, rokText, bodka1, bodka2, zrusButton);
 
-        Scene scene = new Scene(gridPane, 450, 300);
+        Scene scene = new Scene(gridPane, 400, 200);
         zrusOkno.setScene(scene);
         zrusOkno.setResizable(false);  // zakázanie menenia veľkosti okna
         zrusOkno.showAndWait();  // zobrazí okno a čakania, kým sa nezavrie

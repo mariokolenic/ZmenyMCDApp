@@ -1,6 +1,7 @@
 package Skripts;
 
 import java.io.Serializable;
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -76,6 +77,12 @@ public class Datum implements Serializable {
         }
 
         return days;
+    }
+
+    public String getMesiacString(int mesiac) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("LLLL");
+        LocalDate now = LocalDate.of(2021, mesiac+1, 1);
+        return dtf.format(now);
     }
 
     /**
