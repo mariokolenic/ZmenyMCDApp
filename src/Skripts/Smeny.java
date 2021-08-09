@@ -99,18 +99,30 @@ public class Smeny implements Serializable {
             if(smena.getDatum().getMesiac() == (mesiac+1) && smena.getDatum().getRok() == rok) {
                 hodinDokopy += smena.getDlzkaSmeny();
                 celkovaVyplata += smena.getDlzkaSmeny() * user.getMzda();
+                // System.out.print(smena.getDatum().getDen() + " - Zarobené: " + celkovaVyplata);
                 celkovaVyplata += smena.getPriplatok();
+                // System.out.println(" + Prípatok: " + smena.getPriplatok() +  " = " + celkovaVyplata);
             }
         }
 
+        celkovaVyplata = Math.round(celkovaVyplata * 100.0) / 100.0;
         if(user.isDbps()) {
             System.out.println("Hodín dokopy: " + hodinDokopy);
             System.out.println("Celkový príjem: " + celkovaVyplata);
-            celkovaVyplata -= (Math.max(0, (celkovaVyplata-200)) / 100) * 4;  // starobné poistenie
+
+            double starobne = Math.round(((Math.max(0, (celkovaVyplata-200)) / 100) * 4) * 100.0) / 100.0;  // starobné poistenie
+            double invalidne = Math.floor(((Math.max(0, (celkovaVyplata-200)) / 100) * 3) * 100.0) / 100.0;  // invalidné poistenie
+
+            celkovaVyplata -= starobne;
+            celkovaVyplata = Math.round(celkovaVyplata * 100.0) / 100.0;
             System.out.println("Starobné poistenie: " + celkovaVyplata);
-            celkovaVyplata -= (Math.max(0, (celkovaVyplata-200)) / 100) * 3;  // invalidné poistenie
+
+            celkovaVyplata -= invalidne;
+            celkovaVyplata = Math.round(celkovaVyplata * 100.0) / 100.0;
             System.out.println("Invalidné poistenie: " + celkovaVyplata);
-            celkovaVyplata -= (Math.max(0, (celkovaVyplata - 375.95)) / 100) * 20;
+
+            celkovaVyplata -= Math.round(((Math.max(0, (celkovaVyplata - 375.95)) / 100) * 19) * 100.0) / 100.0;
+            celkovaVyplata = Math.round(celkovaVyplata * 100.0) / 100.0;
             System.out.println("Čistý príjem: " + celkovaVyplata);
             celkovaVyplata += hodinDokopy;
             System.out.println("Na účet: " + celkovaVyplata);

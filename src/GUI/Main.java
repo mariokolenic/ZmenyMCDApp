@@ -19,7 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 
-public class MyMCD extends Application {
+public class Main extends Application {
     private Stage hlavneOkno;
     private ImageView imageView = new ImageView();
 
@@ -49,7 +49,7 @@ public class MyMCD extends Application {
             titleLabel.setAlignment(Pos.CENTER);
             titleLabel.setMinWidth(360);
 
-            Image image = new Image(new FileInputStream("./Pictures/ProfilIcon.png"));
+            Image image = new Image(new FileInputStream("/Users/mariokolenic/IdeaProjects/SmenyMCD/Pictures/ProfilIcon.png"));
             ImageView imageView = new ImageView(image);
             imageView.setImage(image);
             imageView.setFitHeight(50);
@@ -62,8 +62,8 @@ public class MyMCD extends Application {
             profilButton.setPadding(new Insets(0,0,0,0));
             profilButton.setStyle("-fx-background-radius: 40;" + "-fx-focus-color: transparent;");
             profilButton.setOnAction(e -> {
-                    new ProfilOkno(userController.getUser());
-                    userController.ulozUsera();
+                new ProfilOkno(userController.getUser());
+                userController.ulozUsera();
             });
 
             HBox topContainer = new HBox();

@@ -45,9 +45,11 @@ public class Smena implements Serializable {
         // sobota nedela
         if(datum.getDayFromDate(datum.getDen(), datum.getMesiac(), datum.getRok()).equals("So")) {  // Sobota
             priplatok += dlzkaSmeny * 1.79;
+            // System.out.println("[" + this.datum.getDen() + "." + this.datum.getMesiac() + "." + this.datum.getRok() + "] Príplatok sobota: " + priplatok);
         }
         else if(datum.getDayFromDate(datum.getDen(), datum.getMesiac(), datum.getRok()).equals("Ne")) {  // Nedela
             priplatok += dlzkaSmeny * 3.58;
+            // System.out.println("[" + this.datum.getDen() + "." + this.datum.getMesiac() + "." + this.datum.getRok() + "] Príplatok nedela: " + priplatok);
         }
 
         // nočný
@@ -59,14 +61,16 @@ public class Smena implements Serializable {
             koniec += 1440;  // 1440 je v minútach --> 24 hodín
             for(int hodina = zaciatok; hodina <= koniec; hodina++) {
                 if(hodina > 1320) {  // 1320 minút - 22 hodín
-                    priplatok += (1.42 / 60);
+                    priplatok += (1.43 / 60);
+                    // System.out.println("[" + this.datum.getDen() + "." + this.datum.getMesiac() + "." + this.datum.getRok() + "] Príplatok nočný: " + priplatok);
                 }
             }
         }
         else {
             for(int hodina = zaciatok; hodina <= koniec; hodina++) {
                 if(hodina > 1320)  // 1320 minút - 22 hodín
-                    priplatok += (1.42 / 60);
+                    priplatok += (1.43 / 60);
+                // System.out.println("[" + this.datum.getDen() + "." + this.datum.getMesiac() + "." + this.datum.getRok() + "] Príplatok nočný: " + priplatok);
             }
         }
         odHodiny /= 60;

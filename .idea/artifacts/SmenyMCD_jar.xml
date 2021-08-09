@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SmenyMCD:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SmenyMCD_jar</output-path>
+    <root id="archive" name="SmenyMCD.jar">
+      <element id="module-output" name="SmenyMCD" />
+    </root>
+  </artifact>
+</component>
